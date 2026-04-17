@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routers import auth, bookmark
+from routers import auth, bookmark, tag
 
 # Create all database tables on startup
 # This reads all models that inherit from Base and generates corresponding SQL tables.
@@ -16,6 +16,7 @@ app = FastAPI(
 # Include routers
 app.include_router(auth.router)
 app.include_router(bookmark.router)
+app.include_router(tag.router)
 
 @app.get("/")
 def root():
