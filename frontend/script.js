@@ -1,7 +1,7 @@
 // ============================================
 // CONFIG — Change this URL for production
 // ============================================
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://tag-based-bookmark-manager-api.onrender.com";
 
 // ============================================
 // DOM REFERENCES
