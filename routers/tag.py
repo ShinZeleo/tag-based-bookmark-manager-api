@@ -44,6 +44,14 @@ def get_tags(
 ):
     return db.query(Tag).filter(Tag.user_id == current_user.id).all()
 
+@router.get("/{tag_id}", response_model=TagResponse)
+def get_tag(
+    tag_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return get_tag_or_404(tag_id, current_user.id, db)
+
 @router.put("/{tag_id}", response_model=TagResponse)
 def update_tag(
     tag_id: int,
