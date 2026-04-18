@@ -10,11 +10,6 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
 
-    # Primary Relationship: One-to-Many
-    # back_populates ensures bidirectional updates with the Bookmark model.
-    # cascade="all, delete-orphan" removes bookmarks tightly coupled if a user is wiped.
     bookmarks = relationship("Bookmark", back_populates="owner", cascade="all, delete-orphan")
     
-    # Additional Relationship: One-to-Many
-    # A user can own multiple tags.
     tags = relationship("Tag", back_populates="owner", cascade="all, delete-orphan")

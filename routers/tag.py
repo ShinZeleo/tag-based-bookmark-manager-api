@@ -11,9 +11,6 @@ from auth.dependencies import get_current_user
 
 router = APIRouter(prefix="/tags", tags=["Tags"])
 
-# ========================
-# HELPER: Ownership Check
-# ========================
 def get_tag_or_404(tag_id: int, user_id: int, db: Session) -> Tag:
     tag = db.query(Tag).filter(Tag.id == tag_id).first()
     if not tag:
@@ -22,9 +19,6 @@ def get_tag_or_404(tag_id: int, user_id: int, db: Session) -> Tag:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access this tag")
     return tag
 
-# ========================
-# 1. CREATE TAG
-# ========================
 @router.post("/", response_model=TagResponse, status_code=status.HTTP_201_CREATED)
 def create_tag(
     tag_data: TagCreate,
@@ -33,7 +27,6 @@ def create_tag(
 ):
     name = tag_data.name.strip().lower()
     
-    # Check if exists
     existing = db.query(Tag).filter(Tag.name == name, Tag.user_id == current_user.id).first()
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tag already exists")
@@ -44,9 +37,6 @@ def create_tag(
     db.refresh(new_tag)
     return new_tag
 
-# ========================
-# 2. GET ALL TAGS
-# ========================
 @router.get("/", response_model=List[TagResponse])
 def get_tags(
     db: Session = Depends(get_db),
@@ -54,9 +44,6 @@ def get_tags(
 ):
     return db.query(Tag).filter(Tag.user_id == current_user.id).all()
 
-# ========================
-# 3. UPDATE TAG
-# ========================
 @router.put("/{tag_id}", response_model=TagResponse)
 def update_tag(
     tag_id: int,
@@ -68,7 +55,6 @@ def update_tag(
     
     new_name = tag_data.name.strip().lower()
     
-    # Check if another tag with the new name already exists
     if new_name != tag.name:
         existing = db.query(Tag).filter(Tag.name == new_name, Tag.user_id == current_user.id).first()
         if existing:
@@ -79,9 +65,6 @@ def update_tag(
     db.refresh(tag)
     return tag
 
-# ========================
-# 4. DELETE TAG
-# ========================
 @router.delete("/{tag_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_tag(
     tag_id: int,

@@ -1,11 +1,5 @@
-// ============================================
-// CONFIG — Change this URL for production
-// ============================================
 const API_URL = "https://tag-based-bookmark-manager-api.onrender.com";
 
-// ============================================
-// DOM REFERENCES
-// ============================================
 const $  = (s) => document.querySelector(s);
 const authPage      = $("#auth-page");
 const dashPage      = $("#dashboard-page");
@@ -30,14 +24,10 @@ const emptyState    = $("#empty-state");
 const loadingEl     = $("#loading");
 const toastEl       = $("#toast");
 
-// ============================================
-// HELPERS
-// ============================================
 function getToken() { return localStorage.getItem("jwt_token"); }
 function setToken(t) { localStorage.setItem("jwt_token", t); }
 function removeToken() { localStorage.removeItem("jwt_token"); }
 
-// Decode a JWT payload (base64) to read the user info — no library needed
 function decodeToken(token) {
     try {
         const payload = token.split(".")[1];
@@ -67,9 +57,6 @@ async function api(path, options = {}) {
     return res;
 }
 
-// ============================================
-// NAVIGATION
-// ============================================
 function showPage(page) {
     authPage.classList.toggle("hidden", page !== "auth");
     dashPage.classList.toggle("hidden", page !== "dashboard");
@@ -81,9 +68,6 @@ function init() {
     else { showPage("auth"); }
 }
 
-// ============================================
-// AUTH
-// ============================================
 btnRegister.addEventListener("click", async () => {
     authError.textContent = "";
     const email = authEmail.value.trim();
@@ -119,9 +103,6 @@ btnLogin.addEventListener("click", async () => {
 
 btnLogout.addEventListener("click", () => { removeToken(); showPage("auth"); });
 
-// ============================================
-// BOOKMARKS — LOAD
-// ============================================
 async function loadBookmarks() {
     loadingEl.classList.remove("hidden");
     emptyState.classList.add("hidden");
@@ -164,9 +145,6 @@ function esc(s) {
     const d = document.createElement("div"); d.textContent = s; return d.innerHTML;
 }
 
-// ============================================
-// BOOKMARKS — CREATE / UPDATE
-// ============================================
 bmForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const id = editIdInput.value;
@@ -180,13 +158,11 @@ bmForm.addEventListener("submit", async (e) => {
     btnSave.disabled = true;
     try {
         if (id) {
-            // UPDATE
             const body = { title, url, description, tags };
             const res = await api(`/bookmarks/${id}`, { method: "PUT", body });
             if (!res.ok) { const d = await res.json(); throw new Error(d.detail || "Update failed"); }
             showToast("Bookmark updated!");
         } else {
-            // CREATE
             const res = await api("/bookmarks/", { method: "POST", body: { title, url, description, tags } });
             if (!res.ok) { const d = await res.json(); throw new Error(d.detail || "Create failed"); }
             showToast("Bookmark created!");
@@ -197,10 +173,6 @@ bmForm.addEventListener("submit", async (e) => {
     finally { btnSave.disabled = false; }
 });
 
-// ============================================
-// BOOKMARKS — EDIT MODE
-// ============================================
-// Store fetched bookmarks so we can populate the form without extra API call
 window.startEdit = async function(id) {
     try {
         const res = await api(`/bookmarks/${id}`);
@@ -228,9 +200,6 @@ function resetForm() {
     btnCancel.classList.add("hidden");
 }
 
-// ============================================
-// BOOKMARKS — DELETE
-// ============================================
 window.deleteBookmark = async function(id) {
     if (!confirm("Delete this bookmark?")) return;
     try {
@@ -241,7 +210,4 @@ window.deleteBookmark = async function(id) {
     } catch (e) { showToast(e.message, "error"); }
 };
 
-// ============================================
-// BOOT
-// ============================================
 init();

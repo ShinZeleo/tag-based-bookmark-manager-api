@@ -4,13 +4,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .hidden{display:none!important}
 
-/* Toast */
 .toast{position:fixed;top:24px;right:24px;padding:14px 22px;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;z-index:999;opacity:0;transform:translateY(-12px);transition:all .35s ease;pointer-events:none;max-width:380px}
 .toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
 .toast.success{background:rgba(52,211,153,.15);border:1px solid var(--success);color:var(--success)}
 .toast.error{background:rgba(248,113,113,.15);border:1px solid var(--danger);color:var(--danger)}
 
-/* Auth */
 #auth-page{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
 .auth-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:48px 40px;width:100%;max-width:420px;box-shadow:var(--shadow)}
 .auth-header{text-align:center;margin-bottom:32px}
@@ -21,7 +19,6 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .auth-buttons .btn{flex:1}
 .error-text{color:var(--danger);font-size:.8rem;text-align:center;margin-top:16px;min-height:20px}
 
-/* Inputs */
 .input-group{margin-bottom:16px}
 .input-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
 .optional{font-weight:400;text-transform:none;letter-spacing:0}
@@ -29,7 +26,6 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .input-group input::placeholder{color:var(--text-dim);opacity:.5}
 .input-group input:focus{border-color:var(--accent)}
 
-/* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:.875rem;font-weight:600;cursor:pointer;transition:all var(--tr)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover:not(:disabled){background:var(--accent-hover)}
@@ -38,7 +34,6 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .btn-danger{background:transparent;color:var(--danger);border:1px solid rgba(248,113,113,.3);padding:7px 14px;font-size:.78rem}.btn-danger:hover{background:rgba(248,113,113,.1)}
 .btn-edit{background:transparent;color:var(--warning);border:1px solid rgba(251,191,36,.3);padding:7px 14px;font-size:.78rem}.btn-edit:hover{background:rgba(251,191,36,.1)}
 
-/* Topbar */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .topbar-left{display:flex;align-items:center;gap:10px}
 .topbar-icon{font-size:1.4rem}
@@ -46,14 +41,12 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .topbar-right{display:flex;align-items:center;gap:16px}
 .user-email{color:var(--text-dim);font-size:.8rem}
 
-/* Dashboard */
 .dashboard-content{max-width:780px;margin:0 auto;padding:32px 24px 60px}
 .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:32px;box-shadow:var(--shadow)}
 .form-card h3{font-size:1rem;font-weight:600;margin-bottom:20px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-actions{display:flex;gap:12px;margin-top:4px}
 
-/* Cards */
 .bookmark-list{display:flex;flex-direction:column;gap:14px}
 .bookmark-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;transition:border-color var(--tr);animation:fadeIn .3s ease}
 .bookmark-card:hover{border-color:var(--accent)}
@@ -67,7 +60,6 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .tag-pill{display:inline-block;padding:3px 10px;background:rgba(108,99,255,.12);color:var(--accent);border-radius:20px;font-size:.72rem;font-weight:500}
 .bm-meta{margin-top:10px;font-size:.7rem;color:var(--text-dim);opacity:.6}
 
-/* Empty & Loading */
 .empty-state{text-align:center;padding:60px 20px;color:var(--text-dim)}
 .empty-icon{font-size:3rem;display:block;margin-bottom:12px}
 .loading{display:flex;justify-content:center;padding:40px}

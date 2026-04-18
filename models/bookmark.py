@@ -14,12 +14,8 @@ class Bookmark(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     
-    # Ownership: strictly binds the bookmark to a specific User.
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
 
-    # Primary Relationship: One-to-Many
     owner = relationship("User", back_populates="bookmarks")
     
-    # Advanced Feature: Many-to-Many Relationship with Tags
-    # `secondary` points to our association table
     tags = relationship("Tag", secondary=bookmark_tag, back_populates="bookmarks")
