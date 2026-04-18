@@ -7,6 +7,8 @@
 [![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
 [![JWT Auth](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)](https://jwt.io/)
 
+**[🌐 Live Frontend Demo](https://tag-based-bookmark-manager-api.netlify.app)** | **[📖 Live API Docs](https://tag-based-bookmark-manager-api.onrender.com/docs)**
+
 A modern, fast, and secure API to store, manage, and categorize personal bookmarks using custom tags. Built with absolute focus on data isolation, security, and developer experience.
 
 </div>
