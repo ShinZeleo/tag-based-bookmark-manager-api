@@ -1,16 +1,19 @@
 {
   "info": {
     "name": "Tag-Based Bookmark Manager API",
+    "description": "# Tag-Based Bookmark Manager API\n\nA secure REST API for managing personal bookmarks with tagging functionality.\n\n## Features:\n* JWT Authentication\n* Bookmark CRUD operations\n* Tag management system\n* Ownership-based data isolation\n\n## Base URL:\n`{{base_url}}`",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "base_url",
-      "value": "http://127.0.0.1:8000"
+      "value": "https://tag-based-bookmark-manager-api.onrender.com",
+      "type": "string"
     },
     {
       "key": "token",
-      "value": "your_jwt_token_here"
+      "value": "",
+      "type": "string"
     }
   ],
   "item": [
@@ -29,14 +32,96 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"securepassword123\"\n}"
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"securepassword123\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/register",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "register"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "### Description\nRegister a new user account.\n\n### Flow\n1. Client sends email and password.\n2. Server hashes the password using bcrypt.\n3. User is saved to the database.\n\n### Authentication\n* Not Required\n\n### Request Body\n* `email`: string (valid email format)\n* `password`: string (min 6 characters)\n\n### Response\nReturns the newly created user object (excluding the password)."
+          },
+          "response": [
+            {
+              "name": "Created - 201",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"securepassword123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"email\": \"user@example.com\",\n  \"id\": 1,\n  \"is_active\": true\n}"
+            },
+            {
+              "name": "Bad Request - 400",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"securepassword123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Email already registered\"\n}"
             }
-          }
+          ]
         },
         {
           "name": "Login User",
@@ -67,7 +152,7 @@
               "urlencoded": [
                 {
                   "key": "username",
-                  "value": "testuser@example.com",
+                  "value": "user@example.com",
                   "type": "text"
                 },
                 {
@@ -79,10 +164,110 @@
             },
             "url": {
               "raw": "{{base_url}}/auth/login",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "### Description\nAuthenticate a user and retrieve a JWT access token.\n\n### Flow\n1. Client sends username (email) and password as form data.\n2. Server verifies credentials.\n3. Server issues a JWT signed with the secret key.\n4. **Postman Test Script**: Automatically extracts the `access_token` and saves it to the `{{token}}` collection variable for future requests.\n\n### Authentication\n* Not Required\n\n### Request Body\n* `username`: string (email)\n* `password`: string\n\n### Response\nReturns the access token and token type."
+          },
+          "response": [
+            {
+              "name": "Success - 200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "user@example.com"
+                    },
+                    {
+                      "key": "password",
+                      "value": "securepassword123"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n  \"token_type\": \"bearer\"\n}"
+            },
+            {
+              "name": "Unauthorized - 401",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "user@example.com"
+                    },
+                    {
+                      "key": "password",
+                      "value": "wrongpassword"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Incorrect email or password\"\n}"
             }
-          }
+          ]
         }
       ]
     },
@@ -109,10 +294,55 @@
             },
             "url": {
               "raw": "{{base_url}}/bookmarks/",
-              "host": ["{{base_url}}"],
-              "path": ["bookmarks", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookmarks",
+                ""
+              ]
+            },
+            "description": "### Description\nCreate a new bookmark associated with the authenticated user.\n\n### Flow\n1. Validates the URL format.\n2. Saves the bookmark with the user's ID as the owner.\n3. Processes the `tags` array: finds existing tags or creates new ones tied to the user.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* `title`: string (required)\n* `url`: string (required, valid URL)\n* `description`: string (optional)\n* `tags`: array of strings (optional)\n\n### Response\nReturns the created bookmark including embedded tag details."
+          },
+          "response": [
+            {
+              "name": "Created - 201",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"FastAPI Docs\",\n  \"url\": \"https://fastapi.tiangolo.com/\",\n  \"tags\": [\"python\"]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    ""
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"title\": \"FastAPI Docs\",\n  \"url\": \"https://fastapi.tiangolo.com/\",\n  \"description\": null,\n  \"id\": 1,\n  \"user_id\": 1,\n  \"created_at\": \"2023-10-15T12:00:00.000000\",\n  \"updated_at\": \"2023-10-15T12:00:00.000000\",\n  \"tags\": [\n    {\n      \"name\": \"python\",\n      \"id\": 1,\n      \"created_at\": \"2023-10-15T12:00:00.000000\",\n      \"updated_at\": \"2023-10-15T12:00:00.000000\"\n    }\n  ]\n}"
             }
-          }
+          ]
         },
         {
           "name": "Get All Bookmarks",
@@ -126,10 +356,51 @@
             ],
             "url": {
               "raw": "{{base_url}}/bookmarks/",
-              "host": ["{{base_url}}"],
-              "path": ["bookmarks", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookmarks",
+                ""
+              ]
+            },
+            "description": "### Description\nRetrieve all bookmarks belonging to the currently authenticated user.\n\n### Flow\n1. Validates the JWT token.\n2. Queries the database for all bookmarks where `user_id` matches the token.\n3. Results are ordered by newest first.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* None\n\n### Response\nReturns a JSON array of bookmark objects."
+          },
+          "response": [
+            {
+              "name": "Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"title\": \"FastAPI Docs\",\n    \"url\": \"https://fastapi.tiangolo.com/\",\n    \"description\": null,\n    \"id\": 1,\n    \"user_id\": 1,\n    \"created_at\": \"2023-10-15T12:00:00.000000\",\n    \"updated_at\": \"2023-10-15T12:00:00.000000\",\n    \"tags\": []\n  }\n]"
             }
-          }
+          ]
         },
         {
           "name": "Get Bookmark by ID",
@@ -143,10 +414,117 @@
             ],
             "url": {
               "raw": "{{base_url}}/bookmarks/1",
-              "host": ["{{base_url}}"],
-              "path": ["bookmarks", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookmarks",
+                "1"
+              ]
+            },
+            "description": "### Description\nRetrieve a specific bookmark by its ID.\n\n### Flow\n1. Validates JWT token.\n2. Finds the bookmark by ID.\n3. Checks ownership: If the bookmark belongs to another user, returns `403 Forbidden`.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* None\n\n### Response\nReturns a single bookmark object with tags."
+          },
+          "response": [
+            {
+              "name": "Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"title\": \"FastAPI Docs\",\n  \"url\": \"https://fastapi.tiangolo.com/\",\n  \"description\": null,\n  \"id\": 1,\n  \"user_id\": 1,\n  \"created_at\": \"2023-10-15T12:00:00.000000\",\n  \"updated_at\": \"2023-10-15T12:00:00.000000\",\n  \"tags\": []\n}"
+            },
+            {
+              "name": "Forbidden - 403",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    "999"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Not authorized to access this bookmark\"\n}"
+            },
+            {
+              "name": "Not Found - 404",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    "999"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Bookmark not found\"\n}"
             }
-          }
+          ]
         },
         {
           "name": "Update Bookmark",
@@ -168,10 +546,55 @@
             },
             "url": {
               "raw": "{{base_url}}/bookmarks/1",
-              "host": ["{{base_url}}"],
-              "path": ["bookmarks", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookmarks",
+                "1"
+              ]
+            },
+            "description": "### Description\nPerform a partial update on a specific bookmark.\n\n### Flow\n1. Validates ownership (403 if unowned, 404 if missing).\n2. Updates only the fields provided in the request body.\n3. If `tags` is provided, completely replaces the existing tag associations.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body (All Optional)\n* `title`: string\n* `url`: string\n* `description`: string\n* `tags`: array of strings\n\n### Response\nReturns the updated bookmark object."
+          },
+          "response": [
+            {
+              "name": "Success - 200 OK",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Updated Title\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"title\": \"Updated Title\",\n  \"url\": \"https://fastapi.tiangolo.com/\",\n  \"description\": null,\n  \"id\": 1,\n  \"user_id\": 1,\n  \"created_at\": \"2023-10-15T12:00:00.000000\",\n  \"updated_at\": \"2023-10-15T12:05:00.000000\",\n  \"tags\": []\n}"
             }
-          }
+          ]
         },
         {
           "name": "Delete Bookmark",
@@ -185,10 +608,46 @@
             ],
             "url": {
               "raw": "{{base_url}}/bookmarks/1",
-              "host": ["{{base_url}}"],
-              "path": ["bookmarks", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookmarks",
+                "1"
+              ]
+            },
+            "description": "### Description\nPermanently delete a bookmark.\n\n### Flow\n1. Verifies ownership of the bookmark.\n2. Deletes the bookmark and its associations to tags.\n3. Does NOT delete the tags themselves, as they may be used by other bookmarks.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* None\n\n### Response\nReturns `204 No Content` on success with no body."
+          },
+          "response": [
+            {
+              "name": "No Content - 204",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/bookmarks/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "bookmarks",
+                    "1"
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": ""
             }
-          }
+          ]
         }
       ]
     },
@@ -215,10 +674,92 @@
             },
             "url": {
               "raw": "{{base_url}}/tags/",
-              "host": ["{{base_url}}"],
-              "path": ["tags", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                ""
+              ]
+            },
+            "description": "### Description\nCreate a new tag manually.\n\n### Flow\n1. Strips whitespace and converts name to lowercase.\n2. Checks if the user already has a tag with this name. If yes, returns `400 Bad Request`.\n3. Saves the new tag.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* `name`: string (required)\n\n### Response\nReturns the created tag object."
+          },
+          "response": [
+            {
+              "name": "Created - 201",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"ai\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/tags/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tags",
+                    ""
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"name\": \"ai\",\n  \"id\": 1,\n  \"created_at\": \"2023-10-15T12:00:00.000000\",\n  \"updated_at\": \"2023-10-15T12:00:00.000000\"\n}"
+            },
+            {
+              "name": "Bad Request - 400",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"ai\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/tags/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tags",
+                    ""
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Tag already exists\"\n}"
             }
-          }
+          ]
         },
         {
           "name": "Get All Tags",
@@ -232,10 +773,51 @@
             ],
             "url": {
               "raw": "{{base_url}}/tags/",
-              "host": ["{{base_url}}"],
-              "path": ["tags", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                ""
+              ]
+            },
+            "description": "### Description\nRetrieve all tags belonging to the currently authenticated user.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* None\n\n### Response\nReturns a JSON array of tag objects."
+          },
+          "response": [
+            {
+              "name": "Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tags/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tags",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"name\": \"python\",\n    \"id\": 1,\n    \"created_at\": \"2023-10-15T12:00:00.000000\",\n    \"updated_at\": \"2023-10-15T12:00:00.000000\"\n  }\n]"
             }
-          }
+          ]
         },
         {
           "name": "Update Tag",
@@ -257,10 +839,92 @@
             },
             "url": {
               "raw": "{{base_url}}/tags/1",
-              "host": ["{{base_url}}"],
-              "path": ["tags", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                "1"
+              ]
+            },
+            "description": "### Description\nRename an existing tag.\n\n### Flow\n1. Validates tag ownership.\n2. Ensures the new tag name doesn't conflict with another tag owned by the user.\n3. Updates the name.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* `name`: string (required)\n\n### Response\nReturns the updated tag object."
+          },
+          "response": [
+            {
+              "name": "Success - 200 OK",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"deep learning\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/tags/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tags",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"name\": \"deep learning\",\n  \"id\": 1,\n  \"created_at\": \"2023-10-15T12:00:00.000000\",\n  \"updated_at\": \"2023-10-15T12:05:00.000000\"\n}"
+            },
+            {
+              "name": "Forbidden - 403",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"deep learning\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/tags/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tags",
+                    "999"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Not authorized to access this tag\"\n}"
             }
-          }
+          ]
         },
         {
           "name": "Delete Tag",
@@ -274,10 +938,46 @@
             ],
             "url": {
               "raw": "{{base_url}}/tags/1",
-              "host": ["{{base_url}}"],
-              "path": ["tags", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                "1"
+              ]
+            },
+            "description": "### Description\nPermanently delete a tag.\n\n### Flow\n1. Validates ownership.\n2. Deletes the tag and its associations.\n\n### Authentication\n* Required: Bearer Token\n\n### Request Body\n* None\n\n### Response\nReturns `204 No Content`."
+          },
+          "response": [
+            {
+              "name": "No Content - 204",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/tags/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tags",
+                    "1"
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": ""
             }
-          }
+          ]
         }
       ]
     }
