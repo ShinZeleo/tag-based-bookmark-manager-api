@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tag-Based Personal Bookmark Manager — Store, organize, and tag your bookmarks securely.">
+    <title>Bookmark Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ==================== -->
+    <!-- TOAST NOTIFICATION   -->
+    <!-- ==================== -->
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <!-- ==================== -->
+    <!-- AUTH PAGE            -->
+    <!-- ==================== -->
+    <section id="auth-page" class="page">
+        <div class="auth-container">
+            <div class="auth-header">
+                <span class="auth-icon">🔖</span>
+                <h1>Bookmark Manager</h1>
+                <p class="auth-subtitle">Store, organize, and tag your bookmarks.</p>
+            </div>
+
+            <form id="auth-form" autocomplete="off">
+                <div class="input-group">
+                    <label for="auth-email">Email</label>
+                    <input type="email" id="auth-email" placeholder="you@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="auth-password">Password</label>
+                    <input type="password" id="auth-password" placeholder="Min. 6 characters" minlength="6" required>
+                </div>
+
+                <div class="auth-buttons">
+                    <button type="button" id="btn-login" class="btn btn-primary">Login</button>
+                    <button type="button" id="btn-register" class="btn btn-secondary">Register</button>
+                </div>
+            </form>
+
+            <p id="auth-error" class="error-text"></p>
+        </div>
+    </section>
+
+    <!-- ==================== -->
+    <!-- DASHBOARD PAGE       -->
+    <!-- ==================== -->
+    <section id="dashboard-page" class="page hidden">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <span class="topbar-icon">🔖</span>
+                <h2>My Bookmarks</h2>
+            </div>
+            <div class="topbar-right">
+                <span id="user-email" class="user-email"></span>
+                <button id="btn-logout" class="btn btn-ghost">Logout</button>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+
+            <!-- Create / Edit Form -->
+            <div class="form-card" id="bookmark-form-card">
+                <h3 id="form-title">Add New Bookmark</h3>
+                <form id="bookmark-form" autocomplete="off">
+                    <input type="hidden" id="edit-id" value="">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="bm-title">Title</label>
+                            <input type="text" id="bm-title" placeholder="e.g. FastAPI Docs" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="bm-url">URL</label>
+                            <input type="url" id="bm-url" placeholder="https://example.com" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="bm-desc">Description <span class="optional">(optional)</span></label>
+                        <input type="text" id="bm-desc" placeholder="Short description...">
+                    </div>
+                    <div class="input-group">
+                        <label for="bm-tags">Tags <span class="optional">(comma separated)</span></label>
+                        <input type="text" id="bm-tags" placeholder="python, api, docs">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="btn-save" class="btn btn-primary">Save Bookmark</button>
+                        <button type="button" id="btn-cancel" class="btn btn-ghost hidden">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bookmark List -->
+            <div id="bookmark-list" class="bookmark-list">
+                <!-- Cards rendered by JS -->
+            </div>
+
+            <!-- Empty state -->
+            <div id="empty-state" class="empty-state hidden">
+                <span class="empty-icon">📭</span>
+                <p>No bookmarks yet. Add your first one above!</p>
+            </div>
+
+            <!-- Loading spinner -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+            </div>
+
+        </main>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
