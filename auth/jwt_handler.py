@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
+import os
 
 from jose import JWTError, jwt
 import bcrypt
@@ -10,7 +11,7 @@ import bcrypt
 # SECRET_KEY: Used to sign and verify JWT tokens. In production, use a secure random string.
 # ALGORITHM: HS256 is a standard symmetric signing algorithm for JWT.
 # ACCESS_TOKEN_EXPIRE_MINUTES: Token validity duration (30 minutes).
-SECRET_KEY = "your-secret-key-change-this-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-this-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
