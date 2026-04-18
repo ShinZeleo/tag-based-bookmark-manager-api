@@ -7,7 +7,7 @@
 [![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
 [![JWT Auth](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)](https://jwt.io/)
 
-**[🌐 Live Frontend Demo](https://tag-based-bookmark-manager-api.netlify.app)** | **[📖 Live API Docs](https://tag-based-bookmark-manager-api.onrender.com/docs)**
+**[🌐 Live Frontend Demo](https://bookmark-manager-api.netlify.app)** | **[📖 Swagger Docs](https://tag-based-bookmark-manager-api.onrender.com/docs)** | **[🚀 Postman Docs](https://documenter.getpostman.com/view/25887507/2sBXqDsP5g)**
 
 A modern, fast, and secure API to store, manage, and categorize personal bookmarks using custom tags. Built with absolute focus on data isolation, security, and developer experience.
 
@@ -179,8 +179,3 @@ erDiagram
 ```
 *Notice how fields omitted from the request (like `url`, `description`, and `tags`) remain untouched!*
 </details>
-
----
-<div align="center">
-  <i>Built with ❤️ using FastAPI and Python</i>
-</div>
